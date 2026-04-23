@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Natasha Bajc — Personal Wellness Protocol</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #000000;
+    --off-black: #080808;
+    --near-black: #0d0d0d;
+    --panel: #111111;
+    --border: #222222;
+    --border-bright: #333333;
+    --white: #ffffff;
+    --off-white: #e8e4dc;
+    --dim: #666666;
+    --dimmer: #444444;
+    --cyan: #00e5cc;
+    --cyan-dim: rgba(0,229,204,0.12);
+    --cyan-glow: rgba(0,229,204,0.04);
+    --gold: #c9a96e;
+    --gold-dim: rgba(201,169,110,0.1);
+    --pink: #e8a0b0;
+    --pink-dim: rgba(232,160,176,0.1);
+    --green: #6ecb8a;
+    --green-dim: rgba(110,203,138,0.1);
+    --purple: #a08ee8;
+    --purple-dim: rgba(160,142,232,0.1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--off-white);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* SCAN LINE EFFECT */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.08) 2px,
+      rgba(0,0,0,0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 500;
+    padding: 20px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(12px);
+  }
+
+  .nav-logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--cyan);
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dim);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--cyan); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-image-panel {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--near-black);
+    overflow: hidden;
+  }
+
+  .hero-image-panel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, transparent 60%, var(--black));
+    pointer-events: none;
+  }
+
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.75;
+    mix-blend-mode: luminosity;
+    filter: contrast(1.1) brightness(0.9);
+    animation: heroFadeIn 2s ease forwards;
+  }
+
+  @keyframes heroFadeIn {
+    from { opacity: 0; transform: scale(1.04); }
+    to { opacity: 0.75; transform: scale(1); }
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 64px 80px 64px;
+    position: relative;
+  }
+
+  .hero-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 32px;
+    animation: slideIn 1s ease 0.3s both;
+  }
+
+  .hero-title {
+    font-size: clamp(52px, 6vw, 88px);
+    font-weight: 300;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    animation: slideIn 1s ease 0.5s both;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-subtitle {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 0.15em;
+    margin-bottom: 48px;
+    animation: slideIn 1s ease 0.7s both;
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    animation: slideIn 1s ease 0.9s both;
+  }
+
+  .stat {
+    background: var(--off-black);
+    padding: 20px 24px;
+  }
+
+  .stat-num {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--cyan);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px;
+    left: 64px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--dimmer);
+    animation: slideIn 1s ease 1.1s both;
+  }
+
+  .scroll-line {
+    width: 60px;
+    height: 1px;
+    background: var(--dimmer);
+    animation: scrollPulse 2s ease infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { width: 60px; opacity: 0.4; }
+    50% { width: 80px; opacity: 1; }
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTION WRAPPER */
+  .section {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 120px 48px;
+  }
+
+  .section-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 48px;
+    margin-bottom: 80px;
+  }
+
+  .section-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 72px;
+    font-weight: 700;
+    color: var(--border-bright);
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: -8px;
+  }
+
+  .section-title-block { flex: 1; }
+
+  .section-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  .section-desc {
+    font-size: 16px;
+    color: var(--dim);
+    max-width: 560px;
+    margin-top: 16px;
+    line-height: 1.8;
+  }
+
+  /* ALERT BOX */
+  .alert-box {
+    border: 1px solid;
+    padding: 32px 40px;
+    margin-bottom: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .alert-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+  }
+
+  .alert-box.cyan { border-color: rgba(0,229,204,0.3); background: var(--cyan-glow); }
+  .alert-box.cyan::before { background: var(--cyan); }
+  .alert-box.gold { border-color: rgba(201,169,110,0.3); background: var(--gold-dim); }
+  .alert-box.gold::before { background: var(--gold); }
+  .alert-box.pink { border-color: rgba(232,160,176,0.3); background: var(--pink-dim); }
+  .alert-box.pink::before { background: var(--pink); }
+  .alert-box.green { border-color: rgba(110,203,138,0.3); background: var(--green-dim); }
+  .alert-box.green::before { background: var(--green); }
+
+  .alert-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .alert-box.cyan .alert-label { color: var(--cyan); }
+  .alert-box.gold .alert-label { color: var(--gold); }
+  .alert-box.pink .alert-label { color: var(--pink); }
+  .alert-box.green .alert-label { color: var(--green); }
+
+  .alert-box p { font-size: 15px; color: var(--off-white); line-height: 1.8; }
+  .alert-box ul { list-style: none; margin-top: 12px; }
+  .alert-box ul li {
+    font-size: 14px;
+    color: var(--off-white);
+    padding: 6px 0;
+    padding-left: 20px;
+    position: relative;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-family: 'Space Mono', monospace;
+    line-height: 1.6;
+  }
+
+  .alert-box ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--dim);
+  }
+
+  /* DATA TABLE */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 48px;
+    font-size: 13px;
+  }
+
+  .data-table th {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--dim);
+    padding: 14px 20px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-bright);
+    font-weight: 400;
+  }
+
+  .data-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    color: var(--off-white);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+
+  .data-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .data-table td:first-child {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--cyan);
+    white-space: nowrap;
+  }
+
+  .pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 2px;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .pill-cyan { background: var(--cyan-dim); color: var(--cyan); border: 1px solid rgba(0,229,204,0.3); }
+  .pill-gold { background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(201,169,110,0.3); }
+  .pill-pink { background: var(--pink-dim); color: var(--pink); border: 1px solid rgba(232,160,176,0.3); }
+  .pill-green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(110,203,138,0.3); }
+  .pill-purple { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(160,142,232,0.3); }
+  .pill-red { background: rgba(255,80,80,0.1); color: #ff8080; border: 1px solid rgba(255,80,80,0.3); }
+
+  /* TIER CARDS */
+  .tier-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 64px;
+  }
+
+  .tier-card {
+    background: var(--off-black);
+    padding: 32px;
+  }
+
+  .tier-card-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .tier-card-title {
+    font-size: 22px;
+    font-weight: 300;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tier-card ul { list-style: none; }
+
+  .tier-card ul li {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    line-height: 1.5;
+  }
+
+  .tier-card ul li span.dose {
+    color: var(--off-white);
+    flex-shrink: 0;
+    font-size: 10px;
+  }
+
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+    padding-left: 48px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--cyan), var(--gold), var(--pink));
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 48px;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -42px;
+    top: 8px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--cyan);
+    border: 1px solid var(--black);
+  }
+
+  .timeline-week {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .timeline-text {
+    font-size: 15px;
+    color: var(--dim);
+    line-height: 1.7;
+  }
+
+  /* SCHEDULE GRID */
+  .schedule-grid {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+
+  .schedule-time {
+    background: var(--off-black);
+    padding: 20px 24px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--cyan);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .schedule-content {
+    background: var(--near-black);
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .schedule-content h4 {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--off-white);
+    margin-bottom: 6px;
+    letter-spacing: 0.05em;
+  }
+
+  .schedule-content p {
+    font-size: 13px;
+    color: var(--dim);
+    line-height: 1.6;
+  }
+
+  /* EXERCISE CARDS */
+  .exercise-day {
+    border: 1px solid var(--border);
+    margin-bottom: 32px;
+    overflow: hidden;
+  }
+
+  .exercise-day-header {
+    padding: 20px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .exercise-day-title {
+    font-size: 20px;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+  }
+
+  .exercise-day-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+
+  .exercise-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .exercise-table td {
+    padding: 14px 32px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    font-size: 13px;
+    vertical-align: top;
+  }
+
+  .exercise-table td:first-child {
+    color: var(--off-white);
+    font-weight: 400;
+    width: 40%;
+  }
+
+  .exercise-table td:nth-child(2),
+  .exercise-table td:nth-child(3) {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--cyan);
+    width: 10%;
+  }
+
+  .exercise-table td:last-child {
+    color: var(--dim);
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  /* HRT SECTION */
+  .hrt-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+
+  .hrt-card {
+    border: 1px solid var(--border);
+    padding: 32px;
+    position: relative;
+  }
+
+  .hrt-card-icon {
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
+
+  .hrt-card h3 {
+    font-size: 20px;
+    font-weight: 300;
+    margin-bottom: 8px;
+  }
+
+  .hrt-card p {
+    font-size: 13px;
+    color: var(--dim);
+    line-height: 1.7;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .hrt-card .status {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+
+  /* DOCTOR BOX */
+  .doctor-box {
+    border: 1px solid rgba(201,169,110,0.4);
+    padding: 48px;
+    background: linear-gradient(135deg, rgba(201,169,110,0.05), transparent);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .doctor-box::before {
+    content: 'Rx';
+    position: absolute;
+    right: -20px;
+    top: -40px;
+    font-size: 180px;
+    color: rgba(201,169,110,0.04);
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    pointer-events: none;
+  }
+
+  .doctor-box h3 {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .doctor-box blockquote {
+    font-size: 17px;
+    font-style: italic;
+    color: var(--off-white);
+    line-height: 1.8;
+    border-left: 2px solid var(--gold);
+    padding-left: 24px;
+    margin-bottom: 24px;
+  }
+
+  .doctor-list { list-style: none; }
+
+  .doctor-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--dim);
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    line-height: 1.6;
+  }
+
+  .doctor-list li::before {
+    content: '→';
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--dimmer);
+    text-transform: uppercase;
+  }
+
+  .footer-note {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--dimmer);
+    text-align: right;
+    max-width: 400px;
+    line-height: 1.8;
+  }
+
+  /* ACCENT LINE */
+  .accent-line {
+    width: 60px;
+    height: 1px;
+    background: var(--cyan);
+    margin: 24px 0;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-image-panel { height: 50vh; }
+    .hero-image-panel::after { background: linear-gradient(to bottom, transparent 60%, var(--black)); }
+    .hero-content { padding: 60px 32px; }
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .section { padding: 80px 24px; }
+    .section-header { flex-direction: column; gap: 16px; }
+    .section-num { font-size: 48px; }
+    .hrt-grid { grid-template-columns: 1fr; }
+    .schedule-grid { grid-template-columns: 1fr; }
+    .schedule-time { border-bottom: none; }
+    footer { flex-direction: column; gap: 24px; text-align: center; }
+    .footer-note { text-align: center; }
+  }
+
+  /* HOVER EFFECTS */
+  .data-table tbody tr { transition: background 0.2s; }
+  .exercise-day { transition: border-color 0.3s; }
+  .exercise-day:hover { border-color: rgba(0,229,204,0.2); }
+  .tier-card { transition: background 0.3s; }
+  .tier-card:hover { background: rgba(255,255,255,0.02); }
+
+  /* GLOW ANIMATION */
+  @keyframes glow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+
+  .glow { animation: glow 3s ease infinite; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">N. Bajc / Wellness Protocol</div>
+  <ul class="nav-links">
+    <li><a href="#hrt">HRT</a></li>
+    <li><a href="#supplements">Supplements</a></li>
+    <li><a href="#nutrition">Nutrition</a></li>
+    <li><a href="#training">Training</a></li>
+    <li><a href="#doctor">Doctor</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-image-panel">
+    <img class="hero-img" src="hero.jpg" alt="The Technosomatic Architecture">
+  </div>
+  <div class="hero-content">
+    <div class="hero-label">Personal Longevity Protocol — 2025</div>
+    <h1 class="hero-title">
+      Natasha<br>
+      <em>Bajc</em>
+    </h1>
+    <p class="hero-subtitle">56 / HRT / Zepbound 15mg / Swimmer / Building</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">2.5<span style="font-size:16px;color:var(--dim)">km</span></div>
+        <div class="stat-label">Per swim session</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">4–5<span style="font-size:16px;color:var(--dim)">×</span></div>
+        <div class="stat-label">Weekly in water</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3<span style="font-size:16px;color:var(--dim)">×</span></div>
+        <div class="stat-label">Weekly lifting</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">15<span style="font-size:16px;color:var(--dim)">mg</span></div>
+        <div class="stat-label">Tirzepatide weekly</div>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      Scroll to protocol
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- SECTION 1: HRT -->
+<div id="hrt" class="section">
+  <div class="section-header">
+    <div class="section-num">01</div>
+    <div class="section-title-block">
+      <div class="section-tag">Hormonal Foundation</div>
+      <h2 class="section-title">HRT <em>Optimisation</em></h2>
+      <p class="section-desc">Your Prometrium is bioidentical — the best possible form. Not blocking weight loss. The missing piece is testosterone.</p>
+    </div>
+  </div>
+
+  <div class="hrt-grid">
+    <div class="hrt-card">
+      <div class="hrt-card-icon">◎</div>
+      <h3>Oestrogen Patch</h3>
+      <p>Review dose for your age. Confirm adequate levels with your prescriber at next appointment.</p>
+      <div class="status"><span class="pill pill-gold">Review</span></div>
+    </div>
+    <div class="hrt-card">
+      <div class="hrt-card-icon">◎</div>
+      <h3>Progesterone 100mg</h3>
+      <p>Generic Prometrium — bioidentical micronised. Confirmed NOT blocking your weight loss. Consider asking about 200mg.</p>
+      <div class="status"><span class="pill pill-green">Confirmed Good</span></div>
+    </div>
+    <div class="hrt-card" style="border-color: rgba(0,229,204,0.3); background: var(--cyan-glow);">
+      <div class="hrt-card-icon" style="color:var(--cyan)">⬡</div>
+      <h3 style="color:var(--cyan)">Testosterone</h3>
+      <p>Currently not prescribed. This is the most impactful conversation you can have with your doctor. Request low-dose cream or gel 0.5–1mg daily.</p>
+      <div class="status"><span class="pill pill-red">Missing</span></div>
+    </div>
+    <div class="hrt-card">
+      <div class="hrt-card-icon">◎</div>
+      <h3>Progesterone 200mg</h3>
+      <p>100mg is lower therapeutic range. 200mg has better data for endometrial protection, sleep depth, anxiety and oestrogen balance.</p>
+      <div class="status"><span class="pill pill-cyan">Ask About</span></div>
+    </div>
+  </div>
+
+  <div class="alert-box green">
+    <div class="alert-label">The Case For Testosterone — Bring This To Your Doctor</div>
+    <ul>
+      <li>On Zepbound 15mg 1+ year with no weight movement — testosterone supports fat metabolism directly</li>
+      <li>25–40% of weight lost on GLP-1 drugs is lean muscle — testosterone is the primary protector against this</li>
+      <li>Swimming 10km+ weekly without testosterone makes muscle building extremely difficult at 56</li>
+      <li>Improves insulin sensitivity — works synergistically with tirzepatide mechanism</li>
+      <li>Low-dose (0.5–1mg daily cream) has excellent safety profile for women</li>
+      <li>Many menopause specialists now consider it standard of care, not optional</li>
+    </ul>
+  </div>
+
+  <div class="doctor-box">
+    <h3>What To Say</h3>
+    <blockquote>"I have been on Zepbound 15mg for over a year with no weight loss response. I swim 10km+ weekly and am adding weight training. I am concerned about muscle loss and would like to discuss adding low-dose testosterone to my HRT protocol."</blockquote>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- SECTION 2: SUPPLEMENTS -->
+<div id="supplements" class="section">
+  <div class="section-header">
+    <div class="section-num">02</div>
+    <div class="section-title-block">
+      <div class="section-tag">Daily Protocol</div>
+      <h2 class="section-title">Supplement <em>Stack</em></h2>
+      <p class="section-desc">Three tiers organised by priority. Everything chosen specifically for your Zepbound + HRT + training combination.</p>
+    </div>
+  </div>
+
+  <div class="tier-grid">
+    <div class="tier-card">
+      <div class="tier-card-label" style="color:var(--cyan)">Tier 1</div>
+      <div class="tier-card-title">Non-Negotiable <em>Foundation</em></div>
+      <ul>
+        <li>Creatine Monohydrate <span class="dose">5g daily</span></li>
+        <li>Vitamin D3 + K2 MK-7 <span class="dose">5000IU + 200mcg</span></li>
+        <li>Magnesium Glycinate <span class="dose">400mg before bed</span></li>
+        <li>Omega 3 EPA/DHA <span class="dose">2–3g daily</span></li>
+        <li>Collagen Peptides <span class="dose">15g + Vit C 1000mg</span></li>
+        <li>Electrolytes <span class="dose">Daily / swim days</span></li>
+        <li>B12 Methylcobalamin <span class="dose">1000mcg sublingual</span></li>
+        <li>Digestive Enzymes <span class="dose">Each meal</span></li>
+        <li>Protein per meal <span class="dose">30–40g × 3</span></li>
+      </ul>
+    </div>
+    <div class="tier-card">
+      <div class="tier-card-label" style="color:var(--purple)">Tier 2</div>
+      <div class="tier-card-title">Highly <em>Recommended</em></div>
+      <ul>
+        <li>CoQ10 Ubiquinol <span class="dose">200mg</span></li>
+        <li>NMN <span class="dose">500mg morning</span></li>
+        <li>Ashwagandha KSM-66 <span class="dose">600mg</span></li>
+        <li>Methylated B Complex <span class="dose">As directed</span></li>
+        <li>Leucine <span class="dose">2.5g per meal</span></li>
+        <li>Berberine ⚠ <span class="dose">250mg max × 2</span></li>
+      </ul>
+    </div>
+    <div class="tier-card">
+      <div class="tier-card-label" style="color:var(--pink)">Tier 3</div>
+      <div class="tier-card-title">Beauty + <em>Longevity</em></div>
+      <ul>
+        <li>Astaxanthin <span class="dose">12mg with fat</span></li>
+        <li>Liposomal Glutathione <span class="dose">500mg evening</span></li>
+        <li>Oral Hyaluronic Acid <span class="dose">200mg</span></li>
+        <li>Spermidine <span class="dose">1mg daily</span></li>
+        <li>Resveratrol <span class="dose">500mg with fat</span></li>
+        <li>Apigenin <span class="dose">50mg before bed</span></li>
+        <li>Silica + Biotin + Zinc <span class="dose">Morning</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="alert-box pink">
+    <div class="alert-label">Zepbound Warning — Berberine</div>
+    <p>Berberine + tirzepatide both lower blood glucose aggressively. Combined hypoglycemia risk is real especially around training. Maximum half-dose (250mg × 2) and get prescriber clearance before starting.</p>
+  </div>
+
+  <!-- TIMING TABLE -->
+  <h3 style="font-size:24px; font-weight:300; margin-bottom:32px; letter-spacing:-0.01em;">Daily Timing <em style="font-style:italic; color:var(--gold)">Schedule</em></h3>
+
+  <div class="schedule-grid">
+    <div class="schedule-time">On Waking</div>
+    <div class="schedule-content">
+      <h4>NMN 500mg + Resveratrol 500mg</h4>
+      <p>Take with small amount of fat — olive oil, handful of nuts. Energising so always morning.</p>
+    </div>
+    <div class="schedule-time">8–9am Breakfast</div>
+    <div class="schedule-content">
+      <h4>D3+K2 / Omega 3 / CoQ10 / B Complex / B12 / Collagen 15g + Vit C / Silica + Biotin + Zinc</h4>
+      <p>With your protein breakfast. Fat-soluble vitamins need fatty meal — non-negotiable.</p>
+    </div>
+    <div class="schedule-time">Pre-Swim Always</div>
+    <div class="schedule-content">
+      <h4>Protein Shake 30g minimum — NON-NEGOTIABLE</h4>
+      <p>Every single swim regardless of eating schedule. Prevents 2.5km of muscle catabolism.</p>
+    </div>
+    <div class="schedule-time">Post-Workout</div>
+    <div class="schedule-content">
+      <h4>Creatine 5g + Protein 30–40g</h4>
+      <p>Within 45 minutes. Your most important recovery window. Do not skip.</p>
+    </div>
+    <div class="schedule-time">12–1pm Lunch</div>
+    <div class="schedule-content">
+      <h4>Berberine 250mg / Ashwagandha 600mg / Digestive Enzymes / Leucine 2.5g</h4>
+      <p>With your largest meal. Leucine especially if protein target looks under-reached.</p>
+    </div>
+    <div class="schedule-time">5–6pm Dinner</div>
+    <div class="schedule-content">
+      <h4>Berberine 250mg / Astaxanthin / Glutathione / HA / Spermidine / Apigenin / Electrolytes</h4>
+      <p>With food. Kitchen closes after this meal — non-negotiable.</p>
+    </div>
+    <div class="schedule-time">Before Bed</div>
+    <div class="schedule-content">
+      <h4>Magnesium Glycinate 400mg</h4>
+      <p>30 minutes before sleep. Critical muscle recovery and sleep depth tool.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- SECTION 3: NUTRITION -->
+<div id="nutrition" class="section">
+  <div class="section-header">
+    <div class="section-num">03</div>
+    <div class="section-title-block">
+      <div class="section-tag">Eating Window Reset</div>
+      <h2 class="section-title">Nutrition <em>Protocol</em></h2>
+      <p class="section-desc">The eating window is the primary block. One large meal at 4–7pm has neutralised Zepbound's effect every day for a year.</p>
+    </div>
+  </div>
+
+  <div class="alert-box cyan">
+    <div class="alert-label">Why The Scale Has Not Moved — The Core Issue</div>
+    <ul>
+      <li>Insulin sensitivity is lowest in the evening — eating at 4–7pm drives fat storage even in a deficit</li>
+      <li>One large meal cannot hit leucine threshold multiple times — muscle protein synthesis requires 3 separate triggers daily</li>
+      <li>Swimming 2.5km fasted burns muscle as fuel — offsetting fat loss and keeping scale static</li>
+      <li>Tirzepatide's appetite suppression is wasted all day then overwhelmed by genuine hunger at 4pm</li>
+      <li>This single change could unlock what a year of medication has not</li>
+    </ul>
+  </div>
+
+  <h3 style="font-size:24px; font-weight:300; margin:48px 0 24px; letter-spacing:-0.01em;">Transition <em style="font-style:italic; color:var(--gold)">Plan</em></h3>
+  <p style="color:var(--dim); font-size:14px; font-family:'Space Mono',monospace; margin-bottom:32px;">Do not go cold turkey — shift forward 30–60 min every few days</p>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Phase</th>
+        <th>First Meal</th>
+        <th>Last Meal</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Week 1</td><td>2:00pm</td><td>7:00pm</td><td>Small shift — hunger patterns adapt gradually</td></tr>
+      <tr><td>Week 2</td><td>12:00pm</td><td>6:30pm</td><td>Lunch becomes your anchor meal</td></tr>
+      <tr><td>Week 3</td><td>10:00am</td><td>6:00pm</td><td>Morning protein now routine</td></tr>
+      <tr><td>Target Week 4+</td><td>8:00–9:00am</td><td>5:30–6:00pm</td><td>Peak metabolic window — Zepbound can now work properly</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-size:24px; font-weight:300; margin:48px 0 24px; letter-spacing:-0.01em;">Daily Meal <em style="font-style:italic; color:var(--gold)">Structure</em></h3>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Meal</th>
+        <th>Time</th>
+        <th>Protein</th>
+        <th>What It Looks Like</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Breakfast</td><td style="color:var(--off-white); font-family:inherit">8–9am</td><td style="color:var(--green); font-family:'Space Mono',monospace; font-size:12px">40g+</td><td>Eggs + smoked salmon / Greek yoghurt + protein powder / cottage cheese</td></tr>
+      <tr><td>Pre-Swim</td><td style="color:var(--off-white); font-family:inherit">Before pool</td><td style="color:var(--green); font-family:'Space Mono',monospace; font-size:12px">30g shake</td><td>Whey isolate — always, every session, non-negotiable</td></tr>
+      <tr><td>Lunch</td><td style="color:var(--off-white); font-family:inherit">12–1pm</td><td style="color:var(--green); font-family:'Space Mono',monospace; font-size:12px">35–40g</td><td>Chicken/fish/beef + vegetables + complex carbs — your largest meal</td></tr>
+      <tr><td>Dinner</td><td style="color:var(--off-white); font-family:inherit">5–6pm</td><td style="color:var(--green); font-family:'Space Mono',monospace; font-size:12px">30–35g</td><td>Fish/eggs/chicken + salad. Light — minimal carbs. Kitchen closes.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<hr class="section-divider">
+
+<!-- SECTION 4: TRAINING -->
+<div id="training" class="section">
+  <div class="section-header">
+    <div class="section-num">04</div>
+    <div class="section-title-block">
+      <div class="section-tag">Resistance Program</div>
+      <h2 class="section-title">Training <em>Protocol</em></h2>
+      <p class="section-desc">3× weekly weight training designed for your exact profile. Muscle preservation on Zepbound is non-negotiable — this is how you keep it.</p>
+    </div>
+  </div>
+
+  <div class="alert-box gold">
+    <div class="alert-label">Key Principles</div>
+    <ul>
+      <li>Heavy enough that last 2–3 reps of each set are genuinely difficult — if it's easy, it is not working</li>
+      <li>Progressive overload every session — increase weight or reps to build muscle</li>
+      <li>90 second minimum rest between strength sets — do not rush</li>
+      <li>Lift BEFORE swimming on same days — resistance training on glycogen, swim as active recovery</li>
+      <li>Your aerobic base means weights will work faster than for most people starting this journey</li>
+    </ul>
+  </div>
+
+  <!-- WEEKLY SCHEDULE -->
+  <table class="data-table" style="margin-bottom:48px">
+    <thead><tr><th>Day</th><th>Activity</th><th>Type</th><th>Duration</th></tr></thead>
+    <tbody>
+      <tr><td>Monday</td><td style="color:var(--off-white);font-family:inherit">Weight Training — Lower Body + Glutes</td><td><span class="pill pill-cyan">Strength</span></td><td style="color:var(--dim);font-family:'Space Mono',monospace;font-size:11px">45–55 min</td></tr>
+      <tr><td>Tuesday</td><td style="color:var(--off-white);font-family:inherit">Swimming 2.5km</td><td><span class="pill pill-gold">Endurance</span></td><td style="color:var(--dim);font-family:'Space Mono',monospace;font-size:11px">~60 min</td></tr>
+      <tr><td>Wednesday</td><td style="color:var(--off-white);font-family:inherit">Weight Training — Upper Body Push + Core</td><td><span class="pill pill-cyan">Strength</span></td><td style="color:var(--dim);font-family:'Space Mono',monospace;font-size:11px">45–55 min</td></tr>
+      <tr><td>Thursday</td><td style="color:var(--off-white);font-family:inherit">Swimming 2.5km</td><td><span class="pill pill-gold">Endurance</span></td><td style="color:var(--dim);font-family:'Space Mono',monospace;font-size:11px">~60 min</td></tr>
+      <tr><td>Friday</td><td style="color:var(--off-white);font-family:inherit">Weight Training — Upper Body Pull + Full Body</td><td><span class="pill pill-cyan">Strength</span></td><td style="color:var(--dim);font-family:'Space Mono',monospace;font-size:11px">45–55 min</td></tr>
+      <tr><td>Saturday</td><td style="color:var(--off-white);font-family:inherit">Swimming 2.5km</td><td><span class="pill pill-gold">Endurance</span></td><td style="color:var(--dim);font-family:'Space Mono',monospace;font-size:11px">~60 min</td></tr>
+      <tr><td>Sunday</td><td style="color:var(--off-white);font-family:inherit">Swimming OR Rest</td><td><span class="pill pill-green">Choice</span></td><td style="color:var(--dim);font-family:'Space Mono',monospace;font-size:11px">Optional</td></tr>
+    </tbody>
+  </table>
+
+  <!-- MONDAY -->
+  <div class="exercise-day">
+    <div class="exercise-day-header">
+      <div class="exercise-day-title">Monday — Lower Body + <em style="font-style:italic; color:var(--cyan)">Glutes</em></div>
+      <div class="exercise-day-tag" style="color:var(--cyan)">Strength / 45–55 min</div>
+    </div>
+    <table class="exercise-table">
+      <tr><td>Goblet Squat</td><td>3</td><td>12</td><td>Heels shoulder-width, chest up. Start here before barbell loading</td></tr>
+      <tr><td>Romanian Deadlift</td><td>4</td><td>10</td><td>Hip hinge — feel hamstring stretch. Slow down, explosive up</td></tr>
+      <tr><td>Leg Press (machine)</td><td>3</td><td>12</td><td>Safer than barbell squat initially. Full range, do not lock knees</td></tr>
+      <tr><td>Hip Thrust</td><td>4</td><td>12</td><td>Best glute builder. Squeeze hard at the top. Add weight progressively</td></tr>
+      <tr><td>Walking Lunges</td><td>3</td><td>10 each</td><td>Long stride. Add dumbbells when bodyweight feels easy</td></tr>
+      <tr><td>Seated Calf Raise</td><td>3</td><td>15</td><td>Full range — all the way up and down. Slow tempo</td></tr>
+      <tr><td>Plank</td><td>3</td><td>45 sec</td><td>Forearms. Brace core — do not let hips sag</td></tr>
+    </table>
+  </div>
+
+  <!-- WEDNESDAY -->
+  <div class="exercise-day">
+    <div class="exercise-day-header">
+      <div class="exercise-day-title">Wednesday — Upper Push + <em style="font-style:italic; color:var(--purple)">Core</em></div>
+      <div class="exercise-day-tag" style="color:var(--purple)">Strength / 45–55 min</div>
+    </div>
+    <table class="exercise-table">
+      <tr><td>Dumbbell Chest Press</td><td>4</td><td>10</td><td>Bench or floor — controlled 3 second descent</td></tr>
+      <tr><td>Seated Shoulder Press</td><td>3</td><td>12</td><td>Seated for stability and spine safety</td></tr>
+      <tr><td>Incline Dumbbell Press</td><td>3</td><td>12</td><td>30–45 degree bench. Upper chest focus</td></tr>
+      <tr><td>Lateral Raises</td><td>3</td><td>15</td><td>Light weight, controlled — elbows slightly bent. No swinging</td></tr>
+      <tr><td>Tricep Pushdowns</td><td>3</td><td>12</td><td>Cable — better range than dips initially</td></tr>
+      <tr><td>Dead Bug</td><td>3</td><td>10 each</td><td>Lower back stays flat on floor throughout. Core anti-rotation</td></tr>
+      <tr><td>Pallof Press</td><td>3</td><td>12 each</td><td>Cable. Resist rotation. Excellent functional core strength</td></tr>
+    </table>
+  </div>
+
+  <!-- FRIDAY -->
+  <div class="exercise-day">
+    <div class="exercise-day-header">
+      <div class="exercise-day-title">Friday — Upper Pull + <em style="font-style:italic; color:var(--pink)">Posterior Chain</em></div>
+      <div class="exercise-day-tag" style="color:var(--pink)">Strength / 45–55 min</div>
+    </div>
+    <table class="exercise-table">
+      <tr><td>Lat Pulldown</td><td>4</td><td>10</td><td>Pull to upper chest. Work toward assisted pull-up over time</td></tr>
+      <tr><td>Seated Cable Row</td><td>4</td><td>12</td><td>Squeeze shoulder blades together at end of movement</td></tr>
+      <tr><td>Single Arm DB Row</td><td>3</td><td>10 each</td><td>Knee on bench. Big range of motion, feel the lat</td></tr>
+      <tr><td>Face Pulls</td><td>3</td><td>15</td><td>Shoulder health and posture. Essential for swimmers. Light weight</td></tr>
+      <tr><td>Bicep Curl</td><td>3</td><td>12</td><td>Alternate or together — supinate at the top</td></tr>
+      <tr><td>Back Extension</td><td>3</td><td>15</td><td>Lower back and glutes. Controlled movement. Add weight when easy</td></tr>
+      <tr><td>Farmer Carries</td><td>3</td><td>30m</td><td>Heavy dumbbells. Grip, core, full body conditioning</td></tr>
+    </table>
+  </div>
+
+  <h3 style="font-size:24px; font-weight:300; margin:48px 0 24px; letter-spacing:-0.01em;">12-Week <em style="font-style:italic; color:var(--gold)">Progression</em></h3>
+  <table class="data-table">
+    <thead><tr><th>Phase</th><th>Weeks</th><th>Focus</th><th>How To Progress</th></tr></thead>
+    <tbody>
+      <tr><td>Foundation</td><td style="color:var(--off-white);font-family:inherit">1–4</td><td style="color:var(--dim)">Learn movements, moderate weight, perfect form</td><td>Do not increase weight yet — nail technique first</td></tr>
+      <tr><td>Build</td><td style="color:var(--off-white);font-family:inherit">5–8</td><td style="color:var(--dim)">Progressive overload every session</td><td>Completed all reps cleanly → add weight next session</td></tr>
+      <tr><td>Strengthen</td><td style="color:var(--off-white);font-family:inherit">9–11</td><td style="color:var(--dim)">Heavier loads, test your limits</td><td>Reduce rest periods, add sets, increase weight</td></tr>
+      <tr><td>Deload</td><td style="color:var(--off-white);font-family:inherit">12</td><td style="color:var(--dim)">Recovery — same movements, 40% less weight</td><td>Then restart heavier for next 12-week block</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<hr class="section-divider">
+
+<!-- SECTION 5: TIMELINE -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">05</div>
+    <div class="section-title-block">
+      <div class="section-tag">What To Expect</div>
+      <h2 class="section-title">Realistic <em>Timeline</em></h2>
+      <p class="section-desc">This is a long game. The compound effect of all changes working together is dramatic — but it takes time.</p>
+    </div>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-week">Weeks 1–2</div>
+      <div class="timeline-text">Eating window shift begins. May feel hungry earlier — this normalises within days as hunger rhythms reset.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-week">Weeks 2–4</div>
+      <div class="timeline-text">Energy during swims improves. Creatine saturation reached. Sleep quality up. Pre-workout protein preventing muscle catabolism.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-week" style="color:var(--gold)">Months 1–2</div>
+      <div class="timeline-text">Scale may begin moving for the first time. Body composition shifting even if scale is slow — clothes will tell the truth before the scale does.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-week" style="color:var(--gold)">Months 3–4</div>
+      <div class="timeline-text">Visible muscle definition beginning. Strength increasing weekly. Collagen supplementation visibly improving skin elasticity.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-week" style="color:var(--pink)">Month 6</div>
+      <div class="timeline-text">Meaningful body recomposition visible. Swimming performance likely improves. If testosterone was added — dramatically accelerated results at this point.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-week" style="color:var(--pink)">Month 12</div>
+      <div class="timeline-text">Genuinely transformed baseline. The compound effect of eating window + training + supplements + optimised HRT working together.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- SECTION 6: DOCTOR -->
+<div id="doctor" class="section">
+  <div class="section-header">
+    <div class="section-num">06</div>
+    <div class="section-title-block">
+      <div class="section-tag">Next Appointment</div>
+      <h2 class="section-title">Doctor <em>Checklist</em></h2>
+      <p class="section-desc">Bring this list to your next HRT and Zepbound appointments. These conversations could be the unlock.</p>
+    </div>
+  </div>
+
+  <div class="doctor-box">
+    <h3>Request At Your Next Appointment</h3>
+    <ul class="doctor-list">
+      <li>Add low-dose testosterone to HRT (0.5–1mg daily cream or gel) — cite muscle preservation on GLP-1, non-response after 1 year</li>
+      <li>Should progesterone increase to 200mg Prometrium given age and oestrogen dose?</li>
+      <li>Confirm oestrogen patch dose is adequate for a 56-year-old — request full review</li>
+      <li>Request fasting insulin + HOMA-IR panel to assess insulin resistance baseline</li>
+      <li>Request ferritin, full iron panel, zinc — common deficiencies on reduced intake from Zepbound</li>
+      <li>Discuss Berberine at half dose alongside Zepbound — get clearance before starting</li>
+      <li>Mention eating window shift from 4pm to 8am — confirm approach with prescriber</li>
+      <li>If Zepbound tolerance has developed — discuss whether dose adjustment or GLP-1 switch makes sense</li>
+    </ul>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Natasha Bajc — Personal Wellness Protocol 2025</div>
+  <div class="footer-note">
+    This protocol is for informational purposes only.<br>
+    Always discuss supplement and HRT changes with your prescribing physician before implementing.
+  </div>
+</footer>
+
+<script>
+  // Intersection observer for subtle fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.style.opacity = '1';
+        el.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.exercise-day, .alert-box, .tier-card, .timeline-item, .hrt-card, .doctor-box').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
